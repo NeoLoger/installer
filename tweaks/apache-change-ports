@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Add this at the begining of all scripts.
+if [ -f "include/startup.sh" ]; then
+    . include/startup.sh
+elif [ -f "../include/startup.sh" ]; then
+    . ../include/startup.sh
+fi
+
+checkTagExist apache2.success
+
+echo "change Apache prots to 8080|8443" | log
+sed -i 's/80/8080/g' /etc/apache2/ports.conf
+sed -i 's/443/8443/g' /etc/apache2/ports.conf
+sed -i 's/80/8080/g'  /etc/apache2/sites-available/000-default.conf
+sed -i 's/443/8443/g'  /etc/apache2/sites-available/default-ssl.conf
+
+echo "Restarting apache service" | log
+systemctl restart apache2.service
+systemctl enable apache2.service
+waitOrStop 0 "Restart apache service failed"
+
+tagScript success
+
+exit 0
