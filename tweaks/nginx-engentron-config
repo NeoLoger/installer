@@ -97,6 +97,6 @@ openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 mkdir -p /var/cache/nginx
 service nginx restart
 
-tag engintron.success
+tagScript success
 
 exit 0
