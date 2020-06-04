@@ -23,6 +23,7 @@ sed '56 a set $PROXY_DOMAIN_OR_IP "127.0.0.1";' /etc/nginx/custom_rules
 echo "create default.conf files" | log
 touch /etc/nginx/conf.d/default.conf
 touch /etc/nginx/conf.d/default_https.conf
+mkdir -p /var/cache/nginx
 
 echo "
 # /**
@@ -89,14 +90,15 @@ echo "Set domain name" | log
 sed -i "s/exampleip/${CWM_DOMAIN}/g" /etc/nginx/conf.d/default.conf
 sed -i "s/exampleip/${CWM_DOMAIN}/g" /etc/nginx/conf.d/default_https.conf
 
+
+echo "Generate dhparam for engintron" | log
 if [ ! -d /etc/ssl/engintron ]; then
     mkdir -p /etc/ssl/engintron
 fi
 
-echo "Generate dhparam for engintron" | log
 openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-mkdir -p /var/cache/nginx
+
 service nginx restart
 
 tagScript success
