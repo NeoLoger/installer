@@ -93,6 +93,7 @@ if [ ! -d /etc/ssl/engintron ]; then
     mkdir -p /etc/ssl/engintron
 fi
 
+echo "Generate dhparam for engintron" | log
 openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 mkdir -p /var/cache/nginx
