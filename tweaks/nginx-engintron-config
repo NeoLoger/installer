@@ -34,8 +34,7 @@ mkdir -p /var/cache/nginx
 echo "
 # /**
 #  * @version    1.13.0
-#  * @package    
-for cPanel/WHM
+#  * @package    for cPanel/WHM
 #  * @author     Fotis Evangelou (https://kodeka.io)
 #  * @url        https://engintron.com
 #  * @copyright  Copyright (c) 2018 - 2019 Kodeka OÜ. All rights reserved.
@@ -46,7 +45,7 @@ server {
     #listen 80 default_server;
     listen [::]:80 default_server ipv6only=off;
 
-    server_name exampleip. www.exampleip;
+    server_name exampleip www.exampleip;
     return  301 https://\$server_name\$request_uri;
     # deny all; # DO NOT REMOVE OR CHANGE THIS LINE - Used when Engintron is disabled to block Nginx from becoming an open proxy
 
