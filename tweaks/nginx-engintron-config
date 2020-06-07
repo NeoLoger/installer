@@ -34,7 +34,8 @@ mkdir -p /var/cache/nginx
 echo "
 # /**
 #  * @version    1.13.0
-#  * @package    Engintron for cPanel/WHM
+#  * @package    
+for cPanel/WHM
 #  * @author     Fotis Evangelou (https://kodeka.io)
 #  * @url        https://engintron.com
 #  * @copyright  Copyright (c) 2018 - 2019 Kodeka OÜ. All rights reserved.
