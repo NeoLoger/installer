@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Add this at the begining of all scripts.
+if [ -f "include/startup.sh" ]; then
+    . include/startup.sh
+elif [ -f "../include/startup.sh" ]; then
+    . ../include/startup.sh
+fi
+
+checkTagExist php-fpm.success
+
+phpVersion=$(php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
+
+
+echo "Set php fpm socket" | log
+sed -i 's/listen = 127.0.0.1:9000/listen = /run/php/php-fpm.sock/g' /etc/php/$phpVersion/fpm/pool.d/www.conf
+
+echo "configure socket in default.conf" | log
+sed -i 'SetHandler "proxy:fcgi://127.0.0.1:9000"/SetHandler "proxy:unix:/var/run/php/php-fpm.sock|fcgi://localhost/"/g' /etc/apache2/sites-enabled/000-default.conf
+
+echo "enable php-fpm in default-ssl.conf" | log
+sed -i '22 a set 
+
+    <Directory /var/www/html>
+        Options -Indexes +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+
+    <FilesMatch \.php$>
+     SetHandler "proxy:unix:/var/run/php/php-fpm.sock|fcgi://localhost/"
+    </FilesMatch>
+	
+' /etc/nginx/custom_rules
+
+
+exit 0
