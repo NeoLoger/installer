@@ -16,7 +16,7 @@ echo "Set php fpm socket" | log
 sed -i 's/listen = 127.0.0.1:9000/listen = \/run\/php\/php-fpm.sock/g' /etc/php/$phpVersion/fpm/pool.d/www.conf
 
 echo "Edit Apache VHOST conf" | log
-sed -i 's/SetHandler "proxy:fcgi:\/\/127.0.0.1:9000"/SetHandler "proxy:unix:\/var\/run\/php\/php-fpm.sock|fcgi:\/\/localhost\/"/g' /etc/apache2/sites-enabled/000-default.conf
+sed -i 's/SetHandler "proxy:fcgi:\/\/127.0.0.1:9000"/SetHandler "proxy:unix:\/var\/run\/php\/php-fpm.sock|fcgi:\/\/localhost\/"/g' /etc/apache2/sites-available/000-default.conf
 
 echo "Enable php-fpm in default-ssl.conf" | log
 sed -i '22 a <Directory \/var\/www\/html>\n  Options -Indexes +FollowSymLinks +MultiViews\n  AllowOverride All\n  Require all granted\n<\/Directory>\n\n<FilesMatch \.php$>\n  SetHandler "proxy:unix:\/var\/run\/php\/php-fpm.sock|fcgi:\/\/localhost\/"\n<\/FilesMatch>\n' /etc/apache2/sites-available/default-ssl.conf
