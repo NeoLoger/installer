@@ -21,7 +21,7 @@ sed -i 's/user nginx/user www-data/g' /etc/nginx/nginx.conf
 sed -i '56 a set $PROXY_DOMAIN_OR_IP "127.0.0.1";' /etc/nginx/custom_rules
 
 echo "Fix common_http.conf" | log
-sed -i 's/try_files $uri $uri/ @backend;/try_files $uri @backend;/g' /etc/nginx/common_http.conf
+sed -i 's/try_files $uri $uri\/ /try_files $uri /g' /etc/nginx/common_http.conf
 
 echo "create info.php files" | log
 touch /etc/www/html/info.php
